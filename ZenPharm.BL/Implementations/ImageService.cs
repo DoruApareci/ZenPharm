@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using ZenPharm.BL.Implementations.Configs;
 using ZenPharm.BL.Interfaces;
 
 namespace ZenPharm.BL.Implementations;

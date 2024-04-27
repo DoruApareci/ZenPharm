@@ -1,21 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ZenPharm.BL.Implementations;
+using ZenPharm.BL.Implementations.Configs;
 using ZenPharm.BL.Interfaces;
 using ZenPharm.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddScoped(_ => new ApplicationDbContext(builder.Configuration.GetConnectionString("SqliteDbName")));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection(CloudinarySettings.OptionKey));
 builder.Services.AddScoped<IImageService, ImageService>();
 
+builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection(SendGridSettings.OptionKey));
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
