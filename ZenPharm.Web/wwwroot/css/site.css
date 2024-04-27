@@ -1,22 +1,59 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+.price {
+    color: grey;
+    font-size: 22px;
+}
+
+.to-cart {
+    border: none;
+    outline: 0;
+    padding: 10px;
+    color: white;
+    background-color: #e12454;
+    text-align: center;
+    cursor: pointer;
+    width: 100px;
+    font-size: 18px;
+    color: white;
+}
+
+    .to-cart:hover {
+        opacity: 0.7;
+    }
+
+a {
+    color: #222 !important;
+    text-decoration: none !important;
+    transition: all .35s ease;
+}
+
+    a:focus, a:hover {
+        color: #e12454 !important;
+        text-decoration: none !important;
+    }
+
+    a:focus {
+        outline: none !important;
+    }
