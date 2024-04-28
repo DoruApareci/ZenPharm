@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZenPharm.DAL;
 
@@ -10,9 +11,11 @@ using ZenPharm.DAL;
 namespace _3.ZenPharm.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427194410_UpdatedProductModel")]
+    partial class UpdatedProductModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
@@ -45,19 +48,19 @@ namespace _3.ZenPharm.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "75d4ff4c-7b6a-470d-9a83-0a33188467c3",
+                            Id = "4a86b1df-c48d-403e-8b27-ecef25400301",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "623df552-d759-4e3a-8c02-4497a7f248c8",
+                            Id = "b7776c54-5e7c-422a-bdbf-2ce06531dec7",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = "f52fbec8-f929-4efa-a48c-107da6fd1d96",
+                            Id = "70667cb5-cbd0-4deb-a0a3-cc1091697f62",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -288,9 +291,6 @@ namespace _3.ZenPharm.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PubId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("StockQuantity")
