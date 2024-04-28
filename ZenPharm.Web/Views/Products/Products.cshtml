@@ -44,19 +44,26 @@
     @foreach (var product in Model.Products)
     {
         <div class="card">
-            <img src="~/Images/placeholder.png" alt="product" style="width:100%; max-height: 150px;">
+            @if (!string.IsNullOrEmpty(product.Path))
+            {
+                <img src="@product.Path" alt="product" style="width:100%; max-height: 150px;">
+            }
+            else
+            {
+                <img src="~/Images/placeholder.png" alt="product" style="width:100%; max-height: 150px;">
+            }
             <div class="card-content">
-                <h4 style="margin:0;"><a href="#asdfa">@product.Name</a></h4>
+                <h4 style="margin:0;"><a href="@Url.Action("ProductDetails", "products", new {@productId = product.Id})">@product.Name</a></h4>
                 <p style="margin:0;" class="price">@product.Price MDL</p>
                 @if (product.StockQuantity != 0)
                 {
                     <p style="margin:0;" class="text-success">Disponibil</p>
+                    <a class="to-cart">Add to Cart</a>
                 }
                 else
                 {
-                    <p style="margin:0;" class="text-danger">Nu-i in stoc</p>
+                    <p style="margin:0;" class="text-danger">Nu este in stoc</p>
                 }
-                <a class="to-cart">Add to Cart</a>
             </div>
         </div>
     }
