@@ -45,4 +45,10 @@ public class OrderService : IOrderService
             _context.SaveChanges();
         }
     }
+
+    public IEnumerable<Order> GetOrders(int page, int count)
+    {
+        var orders = _context.Orders.Skip((page-1)*count).Take(count);
+        return orders;
+    }
 }
