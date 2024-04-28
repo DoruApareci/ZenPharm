@@ -21,11 +21,13 @@ public class OrderService : IOrderService
 
     public Order GetOrderById(Guid id)
     {
-        return _context.Orders.Find(id);
+        var ord = _context.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.ID == id);
+        return ord;
     }
 
     public void AddOrder(Order order)
     {
+        order.Placed = DateTime.Now;
         _context.Orders.Add(order);
         _context.SaveChanges();
     }
@@ -50,5 +52,15 @@ public class OrderService : IOrderService
     {
         var orders = _context.Orders.Skip((page-1)*count).Take(count);
         return orders;
+    }
+
+    public void CloseOrder(Guid id)
+    {
+        var order = GetOrderById(id);
+        if (order != null)
+        {
+            order.Status = DAL.Models.Enums.OrderStatus.Close;
+            _context.SaveChanges();
+        }
     }
 }
