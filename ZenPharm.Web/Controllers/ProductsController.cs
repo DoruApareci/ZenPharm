@@ -23,4 +23,9 @@ public class ProductsController(IProductService productService) : Controller
         productViewModel.Product = product;
         return View(productViewModel);
     }
+
+    public IActionResult ShoppingCart()
+    {
+        return View();
+    }
 }

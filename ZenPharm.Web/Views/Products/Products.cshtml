@@ -4,7 +4,7 @@
 @model ProductsViewModel
 
 <style>
-    .container {
+    .items {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -40,7 +40,7 @@
         }
 </style>
 
-<div class="container py-4">
+<div class="container items py-4">
     @foreach (var product in Model.Products)
     {
         <div class="card">
@@ -56,7 +56,7 @@
                 {
                     <p style="margin:0;" class="text-danger">Nu-i in stoc</p>
                 }
-                <a class="to-cart">Add to Cart</a>
+                <button class="to-cart" onclick="addToCart('@product.Id', '@product.Name', '@product.Price', '/Images/placeholder.png')">Add to Cart</button>
             </div>
         </div>
     }

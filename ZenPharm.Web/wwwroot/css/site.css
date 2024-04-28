@@ -54,6 +54,101 @@ a {
         text-decoration: none !important;
     }
 
+    a.to-cart:focus, a:hover {
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
     a:focus {
         outline: none !important;
+    }
+
+@media (max-width: 800px) {
+    .shopping-cart {
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+
+    .item {
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .image img {
+        width: 50%;
+    }
+
+    .image,
+    .quantity,
+    .description {
+        width: 100%;
+        text-align: center;
+        margin: 6px 0;
+    }
+
+    .buttons {
+        margin-right: 20px;
+    }
+}
+
+.gg-math-plus,
+.gg-math-plus::after {
+    display: block;
+    box-sizing: border-box;
+    background: currentColor;
+    border-radius: 10px
+}
+
+.gg-math-plus {
+    margin-top: -2px;
+    position: relative;
+    transform: scale(var(--ggs,1));
+    width: 16px;
+    height: 2px
+}
+
+    .gg-math-plus::after {
+        content: "";
+        position: absolute;
+        width: 2px;
+        height: 16px;
+        top: -7px;
+        left: 7px
+    }
+
+.gg-math-minus {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 10px
+}
+
+.gg-remove {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid;
+    border-radius: 22px
+}
+
+    .gg-remove::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        width: 10px;
+        height: 2px;
+        background: currentColor;
+        border-radius: 5px;
+        top: 8px;
+        left: 4px
     }
