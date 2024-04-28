@@ -100,4 +100,15 @@ public class AdminController : Controller
         }
         return View();
     }
+
+    [HttpPost]
+    public IActionResult CloseOrder(Guid id)
+    {
+        if (ModelState.IsValid)
+        {
+            _orderService.CloseOrder(id);
+            return RedirectToAction("AdminOrdersList");
+        }
+        return View();
+    }
 }
