@@ -7,9 +7,11 @@ namespace ZenPharm.Web.Controllers;
 public class AdminController : Controller
 {
     private readonly IProductService _productService;
-    public AdminController(IProductService productService)
+    private readonly IOrderService _orderService;
+    public AdminController(IProductService productService, IOrderService orderService)
     {
         _productService = productService;
+        _orderService = orderService;
     }
     public IActionResult Index()
     {
@@ -24,9 +26,17 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public IActionResult AdminOrdersList()
+    public IActionResult AdminOrdersList(int page = 1, int count = 10)
     {
-        return View("AdminOrdersList");
+        var orders = _orderService.GetOrders(page, count).ToList();
+        return View("AdminOrdersList", orders);
+    }
+
+    [HttpGet]
+    public IActionResult OrderDetails(Guid ID)
+    {
+        var ord = _orderService.GetOrderById(ID);
+        return View("OrderDetails", ord);
     }
 
     [HttpGet]
@@ -87,6 +97,17 @@ public class AdminController : Controller
         {
             _productService.DeleteProduct(prodId);
             return RedirectToAction("AdminProductList");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult CloseOrder(Guid id)
+    {
+        if (ModelState.IsValid)
+        {
+            _orderService.CloseOrder(id);
+            return RedirectToAction("AdminOrdersList");
         }
         return View();
     }

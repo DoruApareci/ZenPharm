@@ -7,6 +7,7 @@
         </div>
         <div class="col-lg-5">
             <button type="button" class="btn btn-block btn-primary mx-2" onclick="newProductModal()">
+                <i class="fa-solid fa-plus"></i>
                 New Product
             </button>
         </div>
@@ -38,9 +39,11 @@
                         <td>@prod.ExpiryDate</td>
                         <td class="d-flex">
                             <button type="button" class="btn btn-block btn-primary mx-2" onclick="openEditModal('@prod.Id')">
+                                <i class="fa-solid fa-pen-to-square"></i>
                                 Edit
                             </button>
                             <button type="button" class="btn btn-block btn-danger delete-product-btn" onclick="openDeleteModal('@prod.Id')">
+                                <i class="fa-solid fa-trash"></i>
                                 Delete
                             </button>
                         </td>
