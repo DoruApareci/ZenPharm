@@ -26,13 +26,13 @@
             </div>
         }
         <div class="navbar-nav w-100">
-            <a href="@Url.Action("index", "admin")" class="nav-item nav-link active">
+            <a href="@Url.Action("index", "admin")" class="nav-item nav-link">
                 <i class="fa fa-tachometer-alt me-2"></i>Main
             </a>
             @if (User.IsInRole("Admin"))
             {
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage products</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-brands fa-product-hunt"></i>Manage products</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="@Url.Action("AdminProductList", "admin")" class="dropdown-item">Vew products</a>
                     </div>
@@ -41,7 +41,7 @@
             @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
             {
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage orders</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-regular fa-clipboard"></i>Manage orders</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="@Url.Action("AdminOrdersList", "admin")" class="dropdown-item">Vew orders</a>
                 </div>
@@ -50,7 +50,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage users</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-users"></i>Manage users</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="@Url.Action("AdminUserRoles", "admin")" class="dropdown-item">View users and roles</a>
                     </div>

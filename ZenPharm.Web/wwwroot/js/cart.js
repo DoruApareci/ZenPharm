@@ -3,16 +3,15 @@ function updateLocalStorage(cartItems) {
     localStorage.setItem(productsKey, JSON.stringify(cartItems));
 }
 
-function addToCart(productId, name, price, productImg) {
+function addToCart(productId) {
     var cartData = localStorage.getItem(productsKey);
     var cartItems = cartData ? JSON.parse(cartData) : [];
     var existingItem = cartItems.find(item => item.prodId === productId);
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cartItems.push({ prodId: productId, name: name, pricePerUnit: price, productImg: productImg, quantity: 1 });
+        cartItems.push({ prodId: productId, quantity: 1 });
     }
-
     updateLocalStorage(cartItems);
 }
 
@@ -21,7 +20,7 @@ function removeFromCart(productId) {
     var cartItems = cartData ? JSON.parse(cartData) : [];
     cartItems = cartItems.filter(item => item.prodId !== productId);
     updateLocalStorage(cartItems);
-    location.reload();
+    renderCartItems();
 }
 
 function increaseQuantity(productId) {
@@ -32,7 +31,7 @@ function increaseQuantity(productId) {
         itemToUpdate.quantity++;
     }
     updateLocalStorage(cartItems);
-    location.reload();
+    renderCartItems();
 }
 
 function decreaseQuantity(productId) {
@@ -43,7 +42,7 @@ function decreaseQuantity(productId) {
         itemToUpdate.quantity--;
     }
     updateLocalStorage(cartItems);
-        location.reload();
+    renderCartItems();
 }
 
 function getProductsFromLocalStorage() {
@@ -56,45 +55,61 @@ function getProductsFromLocalStorage() {
     }
 }
 
-function renderCartItems() {
+
+//not working properly(mby the back isn't sending data ok)
+async function renderCartItems() {
     var products = getProductsFromLocalStorage();
     var cartItemsContainer = document.getElementById('cart-items');
-    console.log(cartItemsContainer);
-    // Loop through cart items and create table rows
-    for (const product of products) {
 
-        var item = document.createElement('div');
-        item.classList.add('item');
-        item.innerHTML = `
+    for (const product of products) {
+        try {
+            const response = await fetch(`/orders/ProdDetails/${product.prodId}`, {
+                headers: {
+                    "Content-Type": "application/json; charset=utf8"
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch product details');
+            }
+            const prod = await response.json();
+
+            var item = document.createElement('div');
+            item.classList.add('item');
+            item.innerHTML = `
             <div class="buttons" on>
                 <button class="delete-btn" type="button" onclick="removeFromCart('${product.prodId}')">
-                    <span class="gg-remove"></span>
+                    <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
 
             <div class="image">
-                <img src="${product.productImg}" alt="" />
+                <img src="${prod.path}" alt="" /> <!-- Update with the appropriate property -->
             </div>
 
             <div class="description">
-                <span>${product.name} </span>
-                <span>${product.pricePerUnit}</span>
+                <span>${prod.name} </span> <!-- Update with the appropriate property -->
+                <span>${prod.price}</span> <!-- Update with the appropriate property -->
             </div>
 
             <div class="quantity">
                 <button class="plus-btn" type="button" onclick="increaseQuantity('${product.prodId}')">
-                    <span class="gg-math-plus"></span>
+                    <i class="fa-solid fa-plus"></i>
                 </button>
                 <input type="text" name="name" value="${product.quantity}">
                 <button class="minus-btn" type="button" onclick="decreaseQuantity('${product.prodId}')">
-                    <span class="gg-math-minus"></span>
+                    <i class="fa-solid fa-minus"></i>
                 </button>
             </div>
 
-            <div class="total-price">${product.pricePerUnit * product.quantity}</div>
+            <div class="total-price">${prod.price * product.quantity}</div> <!-- Update with the appropriate property -->
         `;
-        cartItemsContainer.appendChild(item);
-    };
+            cartItemsContainer.appendChild(item);
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+        }
+    }
 }
 
-renderCartItems();
+window.addEventListener('load', function () {
+    renderCartItems();
+});

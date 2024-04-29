@@ -1,4 +1,52 @@
 ﻿@using ZenPharm.DAL.Models
 @model Order
-Order Details: 
-@Model.ID
+@* 
+<div class="container">
+    <div class="mt-4">
+        <h2>Order Information</h2>
+        <div>
+            <p><strong>Order ID:</strong> @Model.Order.ID</p>
+            <p><strong>Placed on:</strong> @Model.Order.Placed</p>
+            <!-- Alte informații despre comandă -->
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Order Details</h3>
+            </div>
+            <div class="card-body">
+                <h5>User Details</h5>
+                <p><strong>User Name:</strong> @Model.Order.User.UserName</p>
+                <p><strong>Email:</strong> @Model.Order.User.Email</p>
+                <!-- Alte detalii despre utilizator -->
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        @foreach (var productQuantity in Model.ProductQuantities)
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3>@productQuantity.Key.Name</h3>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-auto">
+                        <p><strong>Quantity:</strong> @productQuantity.Value</p>
+                        <p><strong>Total Price:</strong> @Model.ProductTotalPrices[productQuantity.Key]</p>
+                    </div>
+                    <img src="@productQuantity.Key.Path" alt="@productQuantity.Key.Name" style="width: 100px; height: 100px;" class="img-fluid">
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="mt-4">
+        <h2>Total for this Order</h2>
+        <div>
+            <p><strong>Total Quantity:</strong> @Model.ProductQuantities.Sum(pq => pq.Value)</p>
+            <p><strong>Total Price:</strong> @Model.ProductTotalPrices.Sum(ptp => ptp.Value)</p>
+        </div>
+    </div>
+</div>
+ *@
