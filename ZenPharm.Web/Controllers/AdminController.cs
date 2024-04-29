@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ZenPharm.BL.Interfaces;
 using ZenPharm.DAL.Models;
+using ZenPharm.Web.Models;
 
 namespace ZenPharm.Web.Controllers;
 
@@ -8,10 +11,19 @@ public class AdminController : Controller
 {
     private readonly IProductService _productService;
     private readonly IOrderService _orderService;
-    public AdminController(IProductService productService, IOrderService orderService)
+
+    private readonly UserManager<ZenPharmUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+
+    public AdminController(IProductService productService, 
+                            IOrderService orderService, 
+                            UserManager<ZenPharmUser> userManager, 
+                            RoleManager<IdentityRole> roleManager)
     {
         _productService = productService;
         _orderService = orderService;
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
     public IActionResult Index()
     {
@@ -28,18 +40,6 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult AdminOrdersList(int page = 1, int count = 10)
     {
-        //Random random = new Random();
-        //var order = new Order()
-        //{
-        //    UserID = Guid.Parse("0f4bcfed-19cc-4236-becb-2918492750d8"),
-        //    OrderItems = new List<OrderItem>()
-        //    {
-        //        new OrderItem() { OrderItemProductID = Guid.Parse("A3277C1C-DC6B-4C36-87E0-2496F0CDD007"), Quantity = random.Next(0,15)},
-        //        new OrderItem() { OrderItemProductID = Guid.Parse("EFDB41B6-5A71-4AE8-9693-442EE889B1B5"), Quantity = random.Next(0,15)},
-        //        new OrderItem() { OrderItemProductID = Guid.Parse("04F69ACA-69D3-494F-A5E5-F7CC5533F576"), Quantity = random.Next(0,15)},
-        //    }
-        //};
-        //_orderService.AddOrder(order);
         var orders = _orderService.GetOrders(page, count).ToList();
         return View("AdminOrdersList", orders);
     }
@@ -54,7 +54,9 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult AdminUserRoles()
     {
-        return View("AdminUserRoles");
+        var users = _userManager.Users.ToList();
+        ViewBag.Roles = _roleManager.Roles.ToList();
+        return View("AdminUserRoles", users);
     }
 
     [HttpGet]
@@ -122,5 +124,37 @@ public class AdminController : Controller
             return RedirectToAction("AdminOrdersList");
         }
         return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleViewModel update)
+    {
+        var user = await _userManager.FindByIdAsync(update.userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var role = await _roleManager.FindByIdAsync(update.newRoleId);
+        if (role == null)
+        {
+            return NotFound();
+        }
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
+        if (!result.Succeeded)
+        {
+            return Ok(result);
+        }
+
+        result = await _userManager.AddToRoleAsync(user, role.Name);
+        if (!result.Succeeded)
+        {
+            return BadRequest(result);
+        }
+
+        return RedirectToAction("AdminUserRoles");
     }
 }

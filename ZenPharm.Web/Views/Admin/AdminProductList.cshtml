@@ -1,4 +1,6 @@
-﻿@using ZenPharm.DAL.Models
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ZenPharmUser> UserManager
+@using ZenPharm.DAL.Models
 @model List<Product>
 <div class="container">
     <div class="row justify-content-between">
