@@ -6,7 +6,7 @@ using ZenPharm.DAL.Models;
 
 namespace ZenPharm.DAL;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext<ZenPharmUser>
 {
     private readonly string? _connectionString;
 
