@@ -35,8 +35,8 @@ public class OrdersController : Controller
             OrderItems = order.OrderItems.Select(x =>
                 new OrderItem
                 {
-                    OrderItemProductID = x.Item1,
-                    Quantity = x.Item2
+                    OrderItemProductID = x.ProdId,
+                    Quantity = x.Quantity
                 }).ToList()
         };
         _orderService.AddOrder(newOrder);
@@ -44,8 +44,7 @@ public class OrdersController : Controller
     }
 
     //needs refactoring(prodId is null on every request)
-    [HttpGet]
-    public Product ProdDetails(Guid prodId)
+    public Product ProdDetails([FromQuery] Guid prodId)
     {
         var prod = _productService.GetProductById(prodId);
         return prod;
