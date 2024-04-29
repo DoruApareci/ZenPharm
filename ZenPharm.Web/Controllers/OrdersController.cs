@@ -19,15 +19,15 @@ public class OrdersController : Controller
 
     [HttpPost]
     [Authorize]
-    public IActionResult PlaceOrder([FromBody] OrderItemsViewModel order)
+    public async Task<IActionResult> PlaceOrder([FromBody] OrderItemsViewModel order)
     {
         if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+            return await Task.FromResult(BadRequest(ModelState));
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (!(!string.IsNullOrEmpty(userId) && Guid.TryParse(userId, out var userIdGuid)))
-            return BadRequest("Invalid user ID.");
+            return await Task.FromResult(BadRequest("Invalid user ID."));
 
         var newOrder = new Order
         {
@@ -39,7 +39,7 @@ public class OrdersController : Controller
                     Quantity = x.Quantity
                 }).ToList()
         };
-        _orderService.AddOrder(newOrder);
+        await _orderService.AddOrder(newOrder);
         return Ok("Order placed successfully!");
     }
 

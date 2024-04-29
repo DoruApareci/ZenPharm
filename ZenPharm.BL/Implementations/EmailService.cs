@@ -20,12 +20,12 @@ public class EmailService : IEmailService
 
     public EmailRequest FormEmailRequest(string? emailFrom, string emailTo, string subject, string body)
     {
-        return new EmailRequest 
-        { 
-            EmailFrom = emailFrom ?? _config.DefaultEmail, 
-            EmailTo = emailTo, 
-            Subject = subject, 
-            Body = body 
+        return new EmailRequest
+        {
+            EmailFrom = emailFrom ?? _config.DefaultEmail,
+            EmailTo = emailTo,
+            Subject = subject,
+            Body = body
         };
     }
 
@@ -33,7 +33,7 @@ public class EmailService : IEmailService
     {
         var emailFromAddress = new EmailAddress(emailRequest.EmailFrom ?? _config.DefaultEmail, _config.FromName);
         var emailToAddress = new EmailAddress(emailRequest.EmailTo);
-        var message = MailHelper.CreateSingleEmail(emailFromAddress, emailToAddress, emailRequest.Subject, emailRequest.Body, "");
+        var message = MailHelper.CreateSingleEmail(emailFromAddress, emailToAddress, emailRequest.Subject, "", emailRequest.Body);
         var response = await _client.SendEmailAsync(message);
     }
 }

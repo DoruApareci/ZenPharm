@@ -29,7 +29,7 @@ public class OrderService : IOrderService
         return ord;
     }
 
-    public void AddOrder(Order order)
+    public async Task AddOrder(Order order)
     {
         order.Placed = DateTime.Now;
         _context.Orders.Add(order);
@@ -40,8 +40,9 @@ public class OrderService : IOrderService
             _productService.UpdateProduct(prod);
         }
         _context.SaveChanges();
-        _mockup.SendClientEmail(GetOrderById(order.ID));
-        _mockup.SendModeratorEmail(GetOrderById(order.ID));
+        var placedOrder = GetOrderById(order.ID);
+        await _mockup.SendClientEmail(placedOrder);
+        await _mockup.SendModeratorEmail(placedOrder);
     }
 
     public void UpdateOrder(Order order)

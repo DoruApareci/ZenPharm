@@ -7,7 +7,7 @@ public interface IOrderService
     IEnumerable<Order> GetAllOrders();
     IEnumerable<Order> GetOrders(int page, int count);
     Order GetOrderById(Guid id);
-    void AddOrder(Order order);
+    Task AddOrder(Order order);
     void CloseOrder(Guid id);
     void UpdateOrder(Order order);
     void DeleteOrder(Guid id);

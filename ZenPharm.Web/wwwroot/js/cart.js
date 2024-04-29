@@ -61,9 +61,9 @@ async function renderCartItems() {
     var cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = '';
     var tprice = 0;
-    if (products.length == 0) {
-        document.getElementById("placeOrderBtn").disabled = true;
-    }
+    //if (products.length == 0) {
+    //    document.getElementById("placeOrderBtn").disabled = true;
+    //}
     for (const product of products) {
         try {
             const response = await fetch(`/orders/prodDetails?prodId=${product.prodId}`);
@@ -114,7 +114,7 @@ async function renderCartItems() {
 
 async function placeOrder() {
     var products = getProductsFromLocalStorage();
-    if (products.length == 0) {
+    if (products.length != 0) {
         var data = JSON.stringify({ order: products })
         try {
             const response = await fetch(`/orders/placeOrder`, {
