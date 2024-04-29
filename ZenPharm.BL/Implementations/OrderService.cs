@@ -8,10 +8,14 @@ namespace ZenPharm.BL.Implementations;
 public class OrderService : IOrderService
 {
     private readonly ApplicationDbContext _context;
+    private readonly MockupEmail _mockup;
+    private readonly IProductService _productService;
 
-    public OrderService(ApplicationDbContext context)
+    public OrderService(ApplicationDbContext context,IProductService productService, MockupEmail mockup)
     {
         _context = context;
+        _productService = productService;
+        _mockup = mockup;
     }
 
     public IEnumerable<Order> GetAllOrders()
@@ -21,7 +25,7 @@ public class OrderService : IOrderService
 
     public Order GetOrderById(Guid id)
     {
-        var ord = _context.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.ID == id);
+        var ord = _context.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemProduct).FirstOrDefault(o => o.ID == id);
         return ord;
     }
 
@@ -29,7 +33,15 @@ public class OrderService : IOrderService
     {
         order.Placed = DateTime.Now;
         _context.Orders.Add(order);
+        foreach (var item in order.OrderItems)
+        {
+            var prod = _productService.GetProductById(item.OrderItemProductID);
+            prod.StockQuantity -= item.Quantity;
+            _productService.UpdateProduct(prod);
+        }
         _context.SaveChanges();
+        _mockup.SendClientEmail(GetOrderById(order.ID));
+        _mockup.SendModeratorEmail(GetOrderById(order.ID));
     }
 
     public void UpdateOrder(Order order)
