@@ -58,13 +58,12 @@
                 @if (product.StockQuantity != 0)
                 {
                     <p style="margin:0;" class="text-success">Disponibil</p>
-                    <a class="to-cart">Add to Cart</a>
+                    <button class="to-cart" onclick="addToCart('@product.Id', '@product.Name', '@product.Price', '/Images/placeholder.png')">Add to Cart</button>
                 }
                 else
                 {
                     <p style="margin:0;" class="text-danger">Nu este in stoc</p>
                 }
-                <button class="to-cart" onclick="addToCart('@product.Id', '@product.Name', '@product.Price', '/Images/placeholder.png')">Add to Cart</button>
             </div>
         </div>
     }

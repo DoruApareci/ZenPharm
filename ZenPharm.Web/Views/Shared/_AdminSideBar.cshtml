@@ -8,37 +8,43 @@
         {
             <div class="d-flex align-items-center ms-4 mb-4 mt-5">
                 <div class="position-relative">
-                <img class="rounded-circle" src="~/Images/anonim.png" alt="" style="width: 40px; height: 40px;">
-                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                    <img class="rounded-circle" src="~/Images/anonim.png" alt="" style="width: 40px; height: 40px;">
+                    <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                    </div>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0">@User.Identity?.Name</h6>
                 </div>
             </div>
-            <div class="ms-3">
-                    <h6 class="mb-0">@User.Identity?.Name</h6>
-            </div>
-        </div>
         }
         <div class="navbar-nav w-100">
             <a href="@Url.Action("index", "admin")" class="nav-item nav-link active">
                 <i class="fa fa-tachometer-alt me-2"></i>Main
             </a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage products</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="@Url.Action("AdminProductList", "admin")" class="dropdown-item">Vew products</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage products</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="@Url.Action("AdminProductList", "admin")" class="dropdown-item">Vew products</a>
+                    </div>
                 </div>
-            </div>
+            }
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage orders</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="@Url.Action("AdminOrdersList", "admin")" class="dropdown-item">Vew orders</a>
                 </div>
             </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage users</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="@Url.Action("AdminUserRoles", "admin")" class="dropdown-item">View users and roles</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Manage users</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="@Url.Action("AdminUserRoles", "admin")" class="dropdown-item">View users and roles</a>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </nav>
 </div>

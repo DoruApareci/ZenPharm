@@ -4,6 +4,7 @@ using ZenPharm.BL.Implementations;
 using ZenPharm.BL.Implementations.Configs;
 using ZenPharm.BL.Interfaces;
 using ZenPharm.DAL;
+using ZenPharm.DAL.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<IOrderService, OrderService>();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ZenPharmUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();

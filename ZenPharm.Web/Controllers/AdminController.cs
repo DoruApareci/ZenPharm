@@ -28,6 +28,18 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult AdminOrdersList(int page = 1, int count = 10)
     {
+        //Random random = new Random();
+        //var order = new Order()
+        //{
+        //    UserID = Guid.Parse("0f4bcfed-19cc-4236-becb-2918492750d8"),
+        //    OrderItems = new List<OrderItem>()
+        //    {
+        //        new OrderItem() { OrderItemProductID = Guid.Parse("A3277C1C-DC6B-4C36-87E0-2496F0CDD007"), Quantity = random.Next(0,15)},
+        //        new OrderItem() { OrderItemProductID = Guid.Parse("EFDB41B6-5A71-4AE8-9693-442EE889B1B5"), Quantity = random.Next(0,15)},
+        //        new OrderItem() { OrderItemProductID = Guid.Parse("04F69ACA-69D3-494F-A5E5-F7CC5533F576"), Quantity = random.Next(0,15)},
+        //    }
+        //};
+        //_orderService.AddOrder(order);
         var orders = _orderService.GetOrders(page, count).ToList();
         return View("AdminOrdersList", orders);
     }
