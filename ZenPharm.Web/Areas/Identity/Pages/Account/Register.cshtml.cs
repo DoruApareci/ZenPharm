@@ -10,15 +10,19 @@ namespace ZenPharm.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+        private static string _defaultUserRoleName = "Buyer";
         private readonly SignInManager<ZenPharmUser> _signInManager;
         private readonly UserManager<ZenPharmUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ZenPharmUser> userManager,
-            SignInManager<ZenPharmUser> signInManager)
+            SignInManager<ZenPharmUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -82,9 +86,18 @@ namespace ZenPharm.Web.Areas.Identity.Pages.Account
                     LastName = Input.LastName,
                     Address = Input.Address
                 };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    var roleExists = await _roleManager.RoleExistsAsync(_defaultUserRoleName);
+
+                    if (!roleExists)
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(_defaultUserRoleName));
+                    }
+                    await _userManager.AddToRoleAsync(user, _defaultUserRoleName);
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
@@ -95,5 +108,6 @@ namespace ZenPharm.Web.Areas.Identity.Pages.Account
             }
             return Page();
         }
+
     }
 }
