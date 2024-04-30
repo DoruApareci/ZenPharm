@@ -43,7 +43,6 @@ public class OrdersController : Controller
         return Ok("Order placed successfully!");
     }
 
-    //needs refactoring(prodId is null on every request)
     public Product ProdDetails([FromQuery] Guid prodId)
     {
         var prod = _productService.GetProductById(prodId);

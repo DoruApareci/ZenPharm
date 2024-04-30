@@ -54,7 +54,7 @@ a {
         text-decoration: none !important;
     }
 
-    a.to-cart:focus, a:hover {
+    a.to-cart:focus, a.to-cart:hover {
         color: #fff !important;
         text-decoration: none !important;
     }

@@ -2,12 +2,12 @@
 
 namespace ZenPharm.Web.Models;
 
-public class ProductsViewModel
+public class AdminProductListViewModel
 {
     public List<Product> Products { get; set; } = [];
 
     public int TotalPages { get; set; }
-    public int PageSize { get; } = 12;
+    public int PageSize { get; } = 10;
     public int CurrentPage { get; set; } = 1;
     public int Step { get; } = 5;
     public int ItemsAroundCurrentPage = 2;

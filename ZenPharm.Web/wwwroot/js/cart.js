@@ -55,15 +55,14 @@ function getProductsFromLocalStorage() {
     }
 }
 
-//not working properly(mby the back isn't sending data ok)
 async function renderCartItems() {
     var products = getProductsFromLocalStorage();
     var cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = '';
     var tprice = 0;
-    //if (products.length == 0) {
-    //    document.getElementById("placeOrderBtn").disabled = true;
-    //}
+    if (products.length == 0) {
+        document.getElementById("placeOrderBtn").disabled = true;
+    }
     for (const product of products) {
         try {
             const response = await fetch(`/orders/prodDetails?prodId=${product.prodId}`);
@@ -90,12 +89,12 @@ async function renderCartItems() {
             </div>
 
             <div class="quantity">
-                <button class="plus-btn" type="button" onclick="increaseQuantity('${product.prodId}')">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-                <input type="text" name="name" value="${product.quantity}">
                 <button class="minus-btn" type="button" onclick="decreaseQuantity('${product.prodId}')">
                     <i class="fa-solid fa-minus"></i>
+                </button>
+                <input type="text" name="name" value="${product.quantity}">
+                <button class="plus-btn" type="button" onclick="increaseQuantity('${product.prodId}')">
+                    <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
 

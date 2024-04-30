@@ -22,49 +22,80 @@
     .card-content {
         padding: 5px
     }
-
-    .to-cart {
-        display: inline-block;
-        font-size: 15px;
-        padding: 12px 20px;
-        background-color: #e12454;
-        color: #fff !important;
-        text-align: center;
-        font-weight: 400;
-        transition: all .3s;
-        width: 100%;
-    }
-
-        .to-cart a:hover {
-            background-color: #ff6f90;
-        }
 </style>
 
 <div class="container items py-4">
-    @foreach (var product in Model.Products)
-    {
-        <div class="card">
-            @if (!string.IsNullOrEmpty(product.Path))
-            {
-                <img src="@product.Path" alt="product" style="width:100%; max-height: 150px;">
-            }
-            else
-            {
-                <img src="~/Images/placeholder.png" alt="product" style="width:100%; max-height: 150px;">
-            }
-            <div class="card-content">
-                <h4 style="margin:0;"><a href="@Url.Action("ProductDetails", "products", new {@productId = product.Id})">@product.Name</a></h4>
-                <p style="margin:0;" class="price">@product.Price MDL</p>
-                @if (product.StockQuantity != 0)
-                {
-                    <p style="margin:0;" class="text-success">Disponibil</p>
-                    <button class="to-cart" onclick="addToCart('@product.Id', '@product.Name', '@product.Price', '/Images/placeholder.png')">Add to Cart</button>
-                }
-                else
-                {
-                    <p style="margin:0;" class="text-danger">Nu este in stoc</p>
-                }
+    <form>
+
+    </form>
+    <div class="row">
+
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-lg-3">
+                <div class="card" style="width: 18rem;">
+                    @if (!string.IsNullOrEmpty(product.Path))
+                    {
+                        <img src="@product.Path" alt="product" style="width:100%; max-height: 150px;object-fit:cover;">
+                    }
+                    else
+                    {
+                        <img src="~/Images/placeholder.png" alt="product" style="width:100%; max-height: 150px;object-fit:cover;">
+                    }
+                    <div class="card-body">
+                        <h4 style="margin:0;"><a href="@Url.Action("ProductDetails", "products", new {@productId = product.Id})">@product.Name</a></h4>
+                        <p style="margin:0;" class="price">@product.Price MDL</p>
+                        @if (product.StockQuantity > 0)
+                        {
+                            <p style="margin:0;" class="text-success">Disponibil</p>
+                            <button class="to-cart" onclick="addToCart('@product.Id')">Add to Cart</button>
+                        }
+                        else
+                        {
+                            <p style="margin:0;" class="text-danger">Nu este in stoc</p>
+                        }
+                    </div>
+                </div>
+
             </div>
-        </div>
-    }
+        }
+    </div>
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" asp-controller="Products" asp-action="Products" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+
+        @if (Model.CurrentPage > Model.Step)
+        {
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+        }
+
+        @for (int i = Model.FromPage; i <= Model.ToPage; i++)
+        {
+            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                <a class="page-link" asp-controller="Products" asp-action="Products" asp-route-pageNumber="@i" asp-route-pageSize="@Model.PageSize">
+                    @i
+                </a>
+            </li>
+        }
+
+        @if (Model.CurrentPage < @Model.TotalPages - Model.Step)
+        {
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+        }
+
+        @if (Model.TotalPages > Model.Step)
+        {
+            <li class="page-item"><a class="page-link" asp-controller="Products" asp-action="Products" asp-route-pageNumber="@Model.TotalPages" asp-route-pageSize="@Model.PageSize">@Model.TotalPages</a></li>
+        }
+        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" asp-controller="Products" asp-action="Products" asp-route-pageNumber="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
 </div>

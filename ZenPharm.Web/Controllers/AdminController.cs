@@ -16,9 +16,9 @@ public class AdminController : Controller
     private readonly UserManager<ZenPharmUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AdminController(IProductService productService, 
-                            IOrderService orderService, 
-                            UserManager<ZenPharmUser> userManager, 
+    public AdminController(IProductService productService,
+                            IOrderService orderService,
+                            UserManager<ZenPharmUser> userManager,
                             RoleManager<IdentityRole> roleManager)
     {
         _productService = productService;
@@ -33,27 +33,40 @@ public class AdminController : Controller
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public IActionResult AdminProductList(int page = 1, int count= 10)
+    public IActionResult AdminProductList(int pageNumber = 1, int pageSize = 10)
     {
-        var prods = _productService.GetProducts(page, count).ToList();
-        return View("AdminProductList", prods);
+        var result = _productService.GetProducts(pageNumber, pageSize);
+
+        AdminProductListViewModel adminViewModel = new();
+        adminViewModel.CurrentPage = result.CurrentPage;
+        adminViewModel.TotalPages = result.TotalPages;
+        adminViewModel.Products = result.Value.ToList();
+
+        return View("AdminProductList", adminViewModel);
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin, Moderator")]
-    public IActionResult AdminOrdersList(int page = 1, int count = 10)
+    public IActionResult AdminOrdersList(int pageNumber = 1, int pageSize = 10)
     {
-        var orders = _orderService.GetOrders(page, count).ToList();
+        var orders = _orderService.GetOrders(pageNumber, pageSize).ToList();
         return View("AdminOrdersList", orders);
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin, Moderator")]
-    public IActionResult OrderDetails(Guid ID)
+    public IActionResult OrderDetailsAsync(Guid ID)
     {
-        var order = _orderService.GetOrderById(ID);
-        //????????????????
-        return View("OrderDetails", order);
+        var Order = _orderService.GetOrderById(ID);
+        var Usr = _userManager.FindByIdAsync(Order.UserID.ToString()).Result;
+
+        OrderDetailsViewModel model = new OrderDetailsViewModel()
+        {
+            Order = Order,
+            Buyer = Usr
+        };
+
+        return View("OrderDetails", model);
     }
 
     [HttpGet]
@@ -77,9 +90,9 @@ public class AdminController : Controller
     public IActionResult Edit(Guid prodId)
     {
         var prod = _productService.GetProductById(prodId);
-        return PartialView("Edit",prod);
+        return PartialView("Edit", prod);
     }
-    
+
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult DeleteProd(Guid prodId)
@@ -98,9 +111,9 @@ public class AdminController : Controller
             _productService.AddProduct(product);
             return RedirectToAction("AdminProductList");
         }
-        return View("RegisterProduct", product);
+        return View("Register", product);
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public IActionResult Edit(Product product)
@@ -112,7 +125,7 @@ public class AdminController : Controller
         }
         return View("Edit", product);
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public IActionResult Delete(Guid prodId)

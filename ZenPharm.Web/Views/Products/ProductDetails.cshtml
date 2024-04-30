@@ -3,24 +3,40 @@
 }
 @model ProductViewModel
 
+<style>
+    .shadow {
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    }
+</style>
 <div class="container py-4">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-lg-5">
             <div>
                 <img src="@Model.Product.Path" style="width:100%;height:auto" alt="product image" />
             </div>
         </div>
-        <div class="col-sm-6">
-            <h4>@Model.Product.Name</h4>
-            <p>Product producer</p>
-            <p class="price">@Model.Product.Price MDL</p>
-            <p><button class="to-cart">Add to Cart</button></p>
-        </div>
+        <di class="col-lg-7" style="margin-top: 150px;">
+            <div class="card w-75 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Product.Name</h5>
+                    <p class="card-text">@Model.Product.Price MDL</p>
+                    @if (Model.Product.StockQuantity > 0)
+                    {
+                        <button class="to-cart" onclick="addToCart('@Model.Product.Id')">Add to Cart</button>
+                    }
+                    else
+                    {
+                        <p style="margin:0;" class="text-danger">Nu este in stoc</p>
+                    }
+
+                </div>
+            </div>
     </div>
-    <div class="row">
-        <div class="col-sm">
-            <h3>Product description</h3>
-            <p>@Model.Product.Description</p>
-        </div>
+</div>
+<div class="row">
+    <div class="col-sm">
+        <h3>Product description</h3>
+        <p>@Model.Product.Description</p>
     </div>
+</div>
 </div>

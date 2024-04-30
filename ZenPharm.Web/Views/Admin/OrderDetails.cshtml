@@ -1,13 +1,13 @@
 ﻿@using ZenPharm.DAL.Models
-@model Order
-@* 
+@model OrderDetailsViewModel
+
 <div class="container">
     <div class="mt-4">
         <h2>Order Information</h2>
         <div>
-            <p><strong>Order ID:</strong> @Model.Order.ID</p>
+            <p><strong>Order ID:</strong> @Model.Order.ID.ToString().Substring(0,5)</p>
             <p><strong>Placed on:</strong> @Model.Order.Placed</p>
-            <!-- Alte informații despre comandă -->
+            <p><strong>Order status:</strong> @Model.Order.Status</p>
         </div>
         <div class="card">
             <div class="card-header">
@@ -15,14 +15,14 @@
             </div>
             <div class="card-body">
                 <h5>User Details</h5>
-                <p><strong>User Name:</strong> @Model.Order.User.UserName</p>
-                <p><strong>Email:</strong> @Model.Order.User.Email</p>
-                <!-- Alte detalii despre utilizator -->
+                <p><strong>User Name:</strong> @Model.Buyer.FirstName @Model.Buyer.LastName </p>
+                <p><strong>Email:</strong> @Model.Buyer.Email</p>
+                <p><strong>Address:</strong> @Model.Buyer.Address</p>
             </div>
         </div>
     </div>
 
-    <div class="mt-4">
+    @* <div class="mt-4">
         @foreach (var productQuantity in Model.ProductQuantities)
         {
             <div class="card mb-3">
@@ -47,6 +47,5 @@
             <p><strong>Total Quantity:</strong> @Model.ProductQuantities.Sum(pq => pq.Value)</p>
             <p><strong>Total Price:</strong> @Model.ProductTotalPrices.Sum(ptp => ptp.Value)</p>
         </div>
-    </div>
+    </div> *@
 </div>
- *@

@@ -10,7 +10,10 @@
         @if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" href="@Url.Action("index", "admin")">Dasboard</a>
+                <a class="nav-link text-dark" href="@Url.Action("index", "admin")">
+                    <i class="fa-solid fa-table-columns"></i>
+                    Dasboard
+                </a>
             </li>
         }
         @if (User.IsInRole("Buyer"))

@@ -8,11 +8,14 @@ public class ProductsController(IProductService productService) : Controller
 {
     private readonly IProductService _productService = productService;
 
-    public IActionResult Products()
+    public IActionResult Products(int pageNumber = 1, int pageSize = 12)
     {
-        var products = _productService.GetAllProducts();
+        var products = _productService.GetProducts(pageNumber, pageSize);
         var productsViewModel = new ProductsViewModel();
-        productsViewModel.Products = products;
+        productsViewModel.CurrentPage = products.CurrentPage;
+        productsViewModel.TotalPages = products.TotalPages;
+        productsViewModel.Products = products.Value.ToList();
+
         return View(productsViewModel);
     }
 
