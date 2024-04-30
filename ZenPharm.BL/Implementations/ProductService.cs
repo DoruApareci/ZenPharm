@@ -37,17 +37,26 @@ public class ProductService : IProductService
 
     public void UpdateProduct(Product product)
     {
-        var toUpdate = GetProductById(product.Id);
+        var existingProduct = GetProductById(product.Id);
+        if (existingProduct == null)
+        {
+            return;
+        }
+        existingProduct.Name = product.Name;
+        existingProduct.Description = product.Description;
+        existingProduct.StockQuantity = product.StockQuantity;
+        existingProduct.Price = product.Price;
+        existingProduct.ExpiryDate = product.ExpiryDate;
         if (product.FormFile != null)
         {
-            _imageService.DeletePhoto(toUpdate.PubId);
+            _imageService.DeletePhoto(existingProduct.PubId);
             var resp = _imageService.AddPhoto(product.FormFile);
-            product.Path = resp.Url.ToString();
-            product.PubId = resp.PublicId;
+            existingProduct.Path = resp.Url.ToString();
+            existingProduct.PubId = resp.PublicId;
         }
-        _context.Entry(product).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
 
     public void DeleteProduct(Guid id)
     {
@@ -59,9 +68,12 @@ public class ProductService : IProductService
         }
     }
 
-    public IEnumerable<Product> GetProducts(int page, int count)
+    public PagedResult<Product> GetProducts(int page, int count)
     {
-        var prods = _context.Products.Skip((page-1)*count).Take(count);
-        return prods;
+        var totalItems = _context.Products.Count();
+        var totalPages = (int)Math.Ceiling((double)totalItems / count);
+        var prods = _context.Products.Skip((page - 1) * count).Take(count);
+        var pageResult = new PagedResult<Product>(prods, totalPages, page, totalItems);
+        return pageResult;
     }
 }
