@@ -49,8 +49,12 @@ public class AdminController : Controller
     [Authorize(Roles = "Admin, Moderator")]
     public IActionResult AdminOrdersList(int pageNumber = 1, int pageSize = 10)
     {
-        var orders = _orderService.GetOrders(pageNumber, pageSize).ToList();
-        return View("AdminOrdersList", orders);
+        var orders = _orderService.GetOrders(pageNumber, pageSize);
+        AdminOrdersViewModel vm = new AdminOrdersViewModel();
+        vm.CurrentPage = orders.CurrentPage;
+        vm.TotalPages = orders.TotalPages;
+        vm.Orders = orders.Value.ToList();
+        return View("AdminOrdersList", vm);
     }
 
     [HttpGet]

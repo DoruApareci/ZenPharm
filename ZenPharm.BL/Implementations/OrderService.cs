@@ -61,10 +61,13 @@ public class OrderService : IOrderService
         }
     }
 
-    public IEnumerable<Order> GetOrders(int page, int count)
+    public PagedResult<Order> GetOrders(int page, int count)
     {
-        var orders = _context.Orders.Skip((page-1)*count).Take(count);
-        return orders;
+        var totalItems = _context.Orders.Count();
+        var totalPages = (int)Math.Ceiling((double)totalItems / count);
+        var orders = _context.Orders.Skip((page - 1) * count).Take(count);
+        var pageResult = new PagedResult<Order>(orders, totalPages, page, totalItems);
+        return pageResult;
     }
 
     public void CloseOrder(Guid id)

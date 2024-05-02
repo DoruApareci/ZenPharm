@@ -8,9 +8,10 @@ public class ProductsController(IProductService productService) : Controller
 {
     private readonly IProductService _productService = productService;
 
-    public IActionResult Products(int pageNumber = 1, int pageSize = 12)
+    public IActionResult Products(int pageNumber = 1, int pageSize = 12, string searchKey = "")
     {
-        var products = _productService.GetProducts(pageNumber, pageSize);
+        var products = string.IsNullOrEmpty(searchKey)
+            ?_productService.GetProducts(pageNumber, pageSize): _productService.GetProducts(pageNumber, pageSize, searchKey);
         var productsViewModel = new ProductsViewModel();
         productsViewModel.CurrentPage = products.CurrentPage;
         productsViewModel.TotalPages = products.TotalPages;

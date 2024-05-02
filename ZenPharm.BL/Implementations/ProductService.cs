@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ZenPharm.BL.Interfaces;
+﻿using ZenPharm.BL.Interfaces;
 using ZenPharm.DAL;
 using ZenPharm.DAL.Models;
 
@@ -73,6 +72,15 @@ public class ProductService : IProductService
         var totalItems = _context.Products.Count();
         var totalPages = (int)Math.Ceiling((double)totalItems / count);
         var prods = _context.Products.Skip((page - 1) * count).Take(count);
+        var pageResult = new PagedResult<Product>(prods, totalPages, page, totalItems);
+        return pageResult;
+    }
+
+    public PagedResult<Product> GetProducts(int page, int count, string key)
+    {
+        var prods = _context.Products.Where(x=>x.Name.ToLower().Contains(key.ToLower()));
+        var totalItems = prods.Count();
+        var totalPages = (int)Math.Ceiling((double)totalItems / count);
         var pageResult = new PagedResult<Product>(prods, totalPages, page, totalItems);
         return pageResult;
     }
