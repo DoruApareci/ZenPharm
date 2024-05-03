@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<link href="~/css/carousel.css" rel="stylesheet" />
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<main role="main">
+    <partial name="_IndexBanner" />
+    <div class="container">
+        <partial name="_IndexFeatures" />
+    </div>
+
+</main>

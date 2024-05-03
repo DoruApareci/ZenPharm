@@ -3,74 +3,75 @@
 @{
     ViewData["Title"] = "Register";
 }
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
 
-<h1>@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-md-6 align-center">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <hr />
+                <div id="page1" class="form-page">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.Email">Email</label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.Password">Password</label>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <button type="button" class="col-md-4 btn btn-primary next-page">Next</button>
+                    </div>
+                </div>
 
-<div class="row">
-    <div class="col-md-6 align-center">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <hr />
-            <div id="page1" class="form-page">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Email">Email</label>
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <div id="page2" class="form-page" style="display: none;">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.FirstName">First name</label>
+                        <input asp-for="Input.FirstName" class="form-control" autocomplete="FirstName" aria-required="true" placeholder="Jhon" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.LastName">Last name</label>
+                        <input asp-for="Input.LastName" class="form-control" autocomplete="LastName" aria-required="true" placeholder="Doe" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="col-md-4 btn btn-secondary prev-page">Previous</button>
+                        <div class="col-md-4"></div>
+                        <button type="button" class="col-md-4 btn btn-primary next-page">Next</button>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Password">Password</label>
-                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4"></div>
-                    <button type="button" class="col-md-4 btn btn-primary next-page">Next</button>
-                </div>
-            </div>
 
-            <div id="page2" class="form-page" style="display: none;">
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.FirstName">First name</label>
-                    <input asp-for="Input.FirstName" class="form-control" autocomplete="FirstName" aria-required="true" placeholder="Jhon" />
-                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                <div id="page3" class="form-page" style="display: none;">
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.PhoneNumber">Phone number</label>
+                        <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="PhoneNumber" aria-required="true" placeholder="+373-691-25-348" />
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <label asp-for="Input.Address">Address</label>
+                        <input asp-for="Input.Address" class="form-control" autocomplete="Address" aria-required="true" placeholder="RM, Chisinau, str. Trandafirilor 5" />
+                        <span asp-validation-for="Input.Address" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="col-md-4 btn btn-secondary prev-page">Previous</button>
+                        <div class="col-md-4"></div>
+                        <button id="registerSubmit" type="submit" class="col-md-4 btn btn-primary">Register</button>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.LastName">Last name</label>
-                    <input asp-for="Input.LastName" class="form-control" autocomplete="LastName" aria-required="true" placeholder="Doe" />
-                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                </div>
-                <div class="row">
-                    <button type="button" class="col-md-4 btn btn-secondary prev-page">Previous</button>
-                    <div class="col-md-4"></div>
-                    <button type="button" class="col-md-4 btn btn-primary next-page">Next</button>
-                </div>
-            </div>
+            </form>
 
-            <div id="page3" class="form-page" style="display: none;">
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.PhoneNumber">Phone number</label>
-                    <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="PhoneNumber" aria-required="true" placeholder="+373-691-25-348" />
-                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Address">Address</label>
-                    <input asp-for="Input.Address" class="form-control" autocomplete="Address" aria-required="true" placeholder="RM, Chisinau, str. Trandafirilor 5" />
-                    <span asp-validation-for="Input.Address" class="text-danger"></span>
-                </div>
-                <div class="row">
-                    <button type="button" class="col-md-4 btn btn-secondary prev-page">Previous</button>
-                    <div class="col-md-4"></div>
-                    <button id="registerSubmit" type="submit" class="col-md-4 btn btn-primary">Register</button>
-                </div>
-            </div>
-        </form>
-
+        </div>
     </div>
 </div>
 <script>

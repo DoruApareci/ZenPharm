@@ -32,49 +32,52 @@
 </style>
 
 
-@using (Html.BeginForm("products", "products"))
-{
-    <div class="input-group">
-        <div class="form-outline">
-            <input class="form-control" type="text" name="searchKey" placeholder="Search" />
+<div class="container">
+    @using (Html.BeginForm("products", "products"))
+    {
+        <div class="input-group">
+            <div class="form-outline">
+                <input class="form-control" type="text" name="searchKey" placeholder="Search" />
+            </div>
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
-        <button class="btn btn-primary" type="submit">
-            <i class="fas fa-search"></i>
-        </button>
-    </div>
-}
-<br />
-<div class="container items py-4">
-    <div class="d-flex flex-wrap justify-content-center">
+    }
+    <br />
+    <div class="items py-4">
+        <div class="d-flex flex-wrap justify-content-center">
 
-        @foreach (var product in Model.Products)
-        {
-            <div class="card">
-                @if (!string.IsNullOrEmpty(product.Path))
-                {
-                    <img src="@product.Path" alt="product" style="width:100%; max-height: 150px;object-fit:cover;">
-                }
-                else
-                {
-                    <img src="~/Images/placeholder.png" alt="product" style="width:100%; max-height: 150px;object-fit:cover;">
-                }
-                <div class="card-body">
-                    <h4 class="title"><a href="@Url.Action("ProductDetails", "products", new {@productId = product.Id})">@product.Name</a></h4>
-                    <p style="margin:0;" class="price">@product.Price MDL</p>
-                    @if (product.StockQuantity > 0)
+            @foreach (var product in Model.Products)
+            {
+                <div class="card">
+                    @if (!string.IsNullOrEmpty(product.Path))
                     {
-                        <p style="margin:0;" class="text-success">Disponibil</p>
-                        <button class="to-cart" onclick="addToCart('@product.Id')">Add to Cart</button>
+                        <img src="@product.Path" alt="product" style="width:100%; max-height: 150px;object-fit:cover;">
                     }
                     else
                     {
-                        <p style="margin:0;" class="text-danger">Nu este in stoc</p>
+                        <img src="~/Images/placeholder.png" alt="product" style="width:100%; max-height: 150px;object-fit:cover;">
                     }
+                    <div class="card-body">
+                        <h4 class="title"><a href="@Url.Action("ProductDetails", "products", new {@productId = product.Id})">@product.Name</a></h4>
+                        <p style="margin:0;" class="price">@product.Price MDL</p>
+                        @if (product.StockQuantity > 0)
+                        {
+                            <p style="margin:0;" class="text-success">Disponibil</p>
+                            <button class="to-cart" onclick="addToCart('@product.Id')">Add to Cart</button>
+                        }
+                        else
+                        {
+                            <p style="margin:0;" class="text-danger">Nu este in stoc</p>
+                        }
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
+
 <ul class="pagination justify-content-center">
     <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
         <a class="page-link" asp-controller="Products" asp-action="Products" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" aria-label="Previous">
