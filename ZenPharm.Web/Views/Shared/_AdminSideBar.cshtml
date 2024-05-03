@@ -42,10 +42,19 @@
             {
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-regular fa-clipboard"></i>Manage orders</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="@Url.Action("AdminOrdersList", "admin")" class="dropdown-item">Vew orders</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="@Url.Action("AdminOrdersList", "admin")" class="dropdown-item">Vew orders</a>
+                    </div>
                 </div>
-            </div>
+            }
+            @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+            {
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-comments"></i>FeedBack</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="@Url.Action("FeedBackMessages", "admin")" class="dropdown-item">Vew feedback messages</a>
+                    </div>
+                </div>
             }
             @if (User.IsInRole("Admin"))
             {

@@ -12,17 +12,20 @@ public class AdminController : Controller
 {
     private readonly IProductService _productService;
     private readonly IOrderService _orderService;
+    private readonly IFeedbackService _feedbackService;
 
     private readonly UserManager<ZenPharmUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
     public AdminController(IProductService productService,
                             IOrderService orderService,
+                            IFeedbackService feedbackService,
                             UserManager<ZenPharmUser> userManager,
                             RoleManager<IdentityRole> roleManager)
     {
         _productService = productService;
         _orderService = orderService;
+        _feedbackService = feedbackService;
         _userManager = userManager;
         _roleManager = roleManager;
     }
@@ -71,6 +74,20 @@ public class AdminController : Controller
         };
 
         return View("OrderDetails", model);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin, Moderator")]
+    public IActionResult FeedBackMessages(int page=1, int count= 10)
+    {
+        var messages = _feedbackService.GetMessages(page, count);
+        FeedbackMessagesViewModel vm = new()
+        {
+            Messages = messages.Value.ToList(),
+            CurrentPage = messages.CurrentPage,
+            TotalPages = messages.TotalPages,
+        };
+        return View("FeedBackMessages", vm);
     }
 
     [HttpGet]

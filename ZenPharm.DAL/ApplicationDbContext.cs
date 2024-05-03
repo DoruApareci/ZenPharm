@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<ZenPharmUser>
     public DbSet<Product> Products { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<FeedBack> FeedBacks {  get; set; }
 
     public ApplicationDbContext(string? connectionString)
     {

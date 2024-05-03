@@ -65,7 +65,7 @@ public class OrderService : IOrderService
     {
         var totalItems = _context.Orders.Count();
         var totalPages = (int)Math.Ceiling((double)totalItems / count);
-        var orders = _context.Orders.Skip((page - 1) * count).Take(count);
+        var orders = _context.Orders.Skip((page - 1) * count).Take(count).OrderByDescending(x=>x.Placed);
         var pageResult = new PagedResult<Order>(orders, totalPages, page, totalItems);
         return pageResult;
     }

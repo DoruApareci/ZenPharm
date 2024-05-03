@@ -23,6 +23,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<IOrderService, OrderService>();
 
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
+
 builder.Services.AddScoped<MockupEmail>();
 
 builder.Services.AddDefaultIdentity<ZenPharmUser>(options => options.SignIn.RequireConfirmedAccount = false)

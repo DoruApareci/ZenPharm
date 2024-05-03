@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZenPharm.DAL;
 
@@ -10,9 +11,11 @@ using ZenPharm.DAL;
 namespace _3.ZenPharm.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240503172407_ClientFeedback")]
+    partial class ClientFeedback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
@@ -204,9 +207,6 @@ namespace _3.ZenPharm.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("Placed")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Topic")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -380,7 +380,7 @@ namespace _3.ZenPharm.DAL.Migrations
                             Id = "e6452a0c-6887-4255-a10e-858e857ab2ed",
                             AccessFailedCount = 0,
                             Address = "AdminAddress",
-                            ConcurrencyStamp = "52e94d54-001d-4542-af61-fe0d80e1ab7b",
+                            ConcurrencyStamp = "1bb3fce5-08d7-432a-b1c6-aa75f11f1cc3",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "AdminFirstName",
@@ -388,9 +388,9 @@ namespace _3.ZenPharm.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHNvbmKQxMngu1LHCTiNuTiKJn6dwpBqdGWymF7Atq5QhhI1GRw111BRGqTxp93ubg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI797CTmCa7iVCf933pLszu6JlRHX8XVKP2H8aVA9uWzfNtO7arZ0NCSZDRwf1HQ0Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ab71561d-bff9-4fbb-a62b-d77a9874cb7e",
+                            SecurityStamp = "4e101042-c868-4649-ac87-22a70af1f380",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         },
@@ -399,7 +399,7 @@ namespace _3.ZenPharm.DAL.Migrations
                             Id = "40d18e53-8fdc-442b-894c-1537e18ee9c0",
                             AccessFailedCount = 0,
                             Address = "ManagerAddress",
-                            ConcurrencyStamp = "176736a1-006a-4538-b372-a9b0700a643f",
+                            ConcurrencyStamp = "2fd71e2f-2ad3-415d-a626-f0fbafa0db00",
                             Email = "manager@manager.com",
                             EmailConfirmed = true,
                             FirstName = "ManagerFirstName",
@@ -407,9 +407,9 @@ namespace _3.ZenPharm.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@MANAGER.COM",
                             NormalizedUserName = "MANAGER@MANAGER.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBH/tkMmpf+hWvntxWmIr7+XPqMUWxviNKlTpZtYtNvjeMvq8SG8UsMKYECzhZZVGw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEHdb0aEfVgZoIq8FQAjroAiZa2zY47zytmPe0Bf8VHzI5IUvvtlLjgMy+cqmZn5Tg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9e7212b4-c314-47a5-bbec-a0b8c926f2dd",
+                            SecurityStamp = "f1112433-004f-4c80-9c23-35bc0ddf6a67",
                             TwoFactorEnabled = false,
                             UserName = "manager@manager.com"
                         },
@@ -418,7 +418,7 @@ namespace _3.ZenPharm.DAL.Migrations
                             Id = "a0b0cd50-7fac-4b4c-9a31-0967103dcb1e",
                             AccessFailedCount = 0,
                             Address = "BuyerAddress",
-                            ConcurrencyStamp = "94eb7743-e447-48b1-ab74-b351c7c5feec",
+                            ConcurrencyStamp = "b4d8d341-d827-4d95-af6e-346c858a5541",
                             Email = "buyer@buyer.com",
                             EmailConfirmed = true,
                             FirstName = "BuyerFirstName",
@@ -426,9 +426,9 @@ namespace _3.ZenPharm.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BUYER@BUYER.COM",
                             NormalizedUserName = "BUYER@BUYER.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEKuTRUFaooc3bD18rzYJjat2R3QzIh+YkHmh9Bl0zdxtgzdWJBfYs5twVE0fiQm2g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELAbRIRgjPZ7kaGjDKaOzgXaqABW2pKF8G1rMwBbePWr4Rhkodivqz9wE9ury7F4EA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f73d508e-8df9-4338-af7c-bceacc8bc27a",
+                            SecurityStamp = "311fdab1-3676-4953-b887-e44aba1b30d2",
                             TwoFactorEnabled = false,
                             UserName = "buyer@buyer.com"
                         });

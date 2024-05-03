@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using ZenPharm.BL.Interfaces;
@@ -9,24 +8,36 @@ namespace ZenPharm.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IProductService _prodServ;
-        public HomeController(IProductService productService)
+        private readonly IFeedbackService _feedbackService;
+        public HomeController(IProductService productService, IFeedbackService feedbackService)
         {
             _prodServ = productService;
+            _feedbackService = feedbackService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        
+
         public IActionResult Contact()
         {
             return View();
         }
-        
+
         public IActionResult About()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Feedback([FromForm]FeedbackFormViewModel message)
+        {
+            if (ModelState.IsValid)
+            {
+                _feedbackService.PlaceFeedback(message.ClientFeedBack);
+            }
+            return Redirect("Index");
         }
 
 
