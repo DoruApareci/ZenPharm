@@ -59,7 +59,7 @@ public class AdminController : Controller
 
     [HttpGet]
     [Authorize(Roles = "Admin, Moderator")]
-    public IActionResult OrderDetailsAsync(Guid ID)
+    public IActionResult OrderDetail(Guid ID)
     {
         var Order = _orderService.GetOrderById(ID);
         var Usr = _userManager.FindByIdAsync(Order.UserID.ToString()).Result;
