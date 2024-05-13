@@ -34,7 +34,13 @@
                 </div>
                 @Html.ValidationMessageFor(a => a.ExpiryDate, "", new { @class = "text-danger" })
             </div>
-
+            <div class="col-lg-12 form-group">
+                @Html.LabelFor(a => a.ProdTypeID)
+                <div class="input-group">
+                    @Html.DropDownListFor(a => a.ProdTypeID, ViewBag.ProductTypes as SelectList, "--Select--", new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(a => a.ProdTypeID, "", new { @class = "text-danger" })
+            </div>
             <div class="col-lg-12 form-group">
                 @Html.LabelFor(a => a.Description)
                 <div class="input-group">

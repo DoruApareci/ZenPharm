@@ -2,10 +2,9 @@
 
 namespace ZenPharm.Web.Models;
 
-public class ProductsViewModel
+public class ProductTypesViewModel
 {
-    public List<Product> Products { get; set; } = [];
-    public List<Tuple<ProductType,int>> ProductTypes { get; set; }
+    public List<ProductType> ProductTypes { get; set; } = [];
 
     public int TotalPages { get; set; }
     public int PageSize { get; } = 12;

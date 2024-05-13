@@ -21,6 +21,7 @@ public class Product
     [DisplayName("Stock:")]
     public int StockQuantity { get; set; }
     [Required]
+    [DataType(DataType.Date)]
     [DisplayName("Expiry date:")]
     public DateTime ExpiryDate { get; set; }
 
@@ -29,4 +30,7 @@ public class Product
     [NotMapped]
     [DisplayName("Product image:")]
     public IFormFile? FormFile { get; set; }
+
+    public Guid? ProdTypeID { get; set; }
+    public ProductType? ProductType { get; set; }
 }

@@ -8,11 +8,13 @@ public class ProductService : IProductService
 {
     private readonly ApplicationDbContext _context;
     private readonly IImageService _imageService;
+    private readonly IProdTypeService _productTypeService;
 
-    public ProductService(ApplicationDbContext context, IImageService imageService)
+    public ProductService(ApplicationDbContext context, IImageService imageService, IProdTypeService productTypeService)
     {
         _context = context;
         _imageService = imageService;
+        _productTypeService = productTypeService;
     }
 
     public IEnumerable<Product> GetAllProducts()
@@ -46,6 +48,7 @@ public class ProductService : IProductService
         existingProduct.StockQuantity = product.StockQuantity;
         existingProduct.Price = product.Price;
         existingProduct.ExpiryDate = product.ExpiryDate;
+        existingProduct.ProdTypeID = product.ProdTypeID;
         if (product.FormFile != null)
         {
             _imageService.DeletePhoto(existingProduct.PubId);
@@ -76,12 +79,35 @@ public class ProductService : IProductService
         return pageResult;
     }
 
-    public PagedResult<Product> GetProducts(int page, int count, string key)
+    public PagedResult<Product> GetProducts(int page, int count, string? key, string? catid)
     {
-        var prods = _context.Products.Where(x=>x.Name.ToLower().Contains(key.ToLower()));
-        var totalItems = prods.Count();
+        IQueryable<Product> query = _context.Products;
+        if (!string.IsNullOrEmpty(key))
+        {
+            query = query.Where(x => x.Name.ToLower().Contains(key.ToLower()));
+        }
+        if (!string.IsNullOrEmpty(catid))
+        {
+            query = query.Where(x => x.ProdTypeID == Guid.Parse(catid));
+        }
+
+        var totalItems = query.Count();
         var totalPages = (int)Math.Ceiling((double)totalItems / count);
+        
+        var prods = query.Skip((page - 1) * count).Take(count).ToList();
+
         var pageResult = new PagedResult<Product>(prods, totalPages, page, totalItems);
         return pageResult;
+    }
+
+    public IEnumerable<Tuple<ProductType, int>> GetProductTypesWithCount()
+    {
+        var ret = new List<Tuple<ProductType, int>>();
+        var prodTypes = _productTypeService.GetProdTypes().ToList();
+        foreach (var item in prodTypes)
+        {
+            ret.Add(new Tuple<ProductType, int>(item, _context.Products.Count(x => x.ProdTypeID == item.ProdTypeID)));
+        }
+        return ret;
     }
 }

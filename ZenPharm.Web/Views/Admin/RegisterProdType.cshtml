@@ -1,0 +1,26 @@
+﻿@model AddProductTypeViewModel
+
+@using (Html.BeginForm("RegisterProdType", "admin", FormMethod.Post))
+{
+    <div class="pt-3">
+        <div class="row justify-content-between mx-3">
+            <div class="col-lg-6 form-group">
+                @Html.LabelFor(a => a.ProductType.TypeName)
+                <div class="input-group">
+                    @Html.TextBoxFor(a => a.ProductType.TypeName, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(a => a.ProductType.TypeName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-6 form-group">
+                @Html.LabelFor(a => a.ProductType.TypeDescription)
+                <div class="input-group">
+                    @Html.TextBoxFor(a => a.ProductType.TypeDescription, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(a => a.ProductType.TypeDescription, "", new { @class = "text-danger" })
+            </div>
+            <div class="my-3 col-lg-4">
+                <input class="btn btn-block btn-danger" type="submit" value="Inregistreaza" style="width:200px;">
+            </div>
+        </div>
+    </div>
+}

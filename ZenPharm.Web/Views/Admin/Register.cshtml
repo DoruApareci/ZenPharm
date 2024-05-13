@@ -33,7 +33,21 @@
                 </div>
                 @Html.ValidationMessageFor(a => a.Product.ExpiryDate, "", new { @class = "text-danger" })
             </div>
-            
+
+
+
+            <div class="col-lg-12 form-group">
+                @Html.LabelFor(a => a.Product.ProdTypeID)
+                <div class="input-group">
+                    @Html.DropDownListFor(a => a.Product.ProdTypeID, Model.Types, "-- Select --", new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(a => a.Product.ProdTypeID, "", new { @class = "text-danger" })
+            </div>
+
+
+
+
+
             <div class="col-lg-12 form-group">
                 @Html.LabelFor(a => a.Product.Description)
                 <div class="input-group">
@@ -52,5 +66,16 @@
                 <input class="btn btn-block btn-danger" type="submit" value="Inregistreaza" style="width:200px;">
             </div>
         </div>
+    </div>
+}
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
     </div>
 }

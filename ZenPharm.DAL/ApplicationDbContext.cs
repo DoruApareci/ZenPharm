@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using ZenPharm.DAL.Models;
 
 namespace ZenPharm.DAL;
@@ -11,10 +10,11 @@ public class ApplicationDbContext : IdentityDbContext<ZenPharmUser>
 {
     private readonly string? _connectionString;
 
+    public DbSet<ProductType> ProductTypes { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<FeedBack> FeedBacks {  get; set; }
+    public DbSet<FeedBack> FeedBacks { get; set; }
 
     public ApplicationDbContext(string? connectionString)
     {
@@ -35,6 +35,13 @@ public class ApplicationDbContext : IdentityDbContext<ZenPharmUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Product>()
+              .HasOne(p => p.ProductType)
+              .WithMany(pt => pt.Products)
+              .HasForeignKey(p => p.ProdTypeID)
+              .IsRequired(false);
+
         modelBuilder.Entity<IdentityRole>()
             .HasData(
                 new IdentityRole { Id = Guid.Parse("1f92b138-a27e-44cd-904e-7c10eff9616e").ToString(), Name = "Buyer", NormalizedName = "BUYER" },
